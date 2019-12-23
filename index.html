@@ -47,6 +47,18 @@
             margin-left: auto;
             margin-right: 40px;
         }
+        
+        .flex_columns {
+            display: flex;
+            flex-flow: wrap row;
+            justify-content: space-between;
+        }
+        .flex_columns > * {
+            min-width: 18vw;
+            margin: 1rem;
+        }
+        
+        * { outline: red 1px solid; }
     </style>
 </head>
 <body onload="init_barcode_game()">
@@ -71,23 +83,11 @@
     <div id="name_entry">
         <h1>Congratulations, you have a new high score: <span id="new_highscore"> </span> s!</h1>
         <h2>Enter name: <span id=name_preview></span></h2>
-        <div id="control_barcodes" class="barcode_row">
-                <div class='barcode_column'></div>
-                <div class='barcode_column'></div>
-                <div class='barcode_column'></div>
-        </div>
+        <div id="control_barcodes" class="flex_columns"></div>
         <h2>New entry</h2> 
-        <div id="alphabet_barcodes" class="barcode_row">
-            <div class='barcode_column'></div>
-            <div class='barcode_column'></div>
-            <div class='barcode_column'></div>
-        </div>
+        <div id="alphabet_barcodes" class="flex_columns"></div>
         <h2>Fast entry</h2> 
-        <div id="fast_entry_barcodes" class="barcode_row">
-            <div class='barcode_column'></div>
-            <div class='barcode_column'></div>
-            <div class='barcode_column'></div>
-        </div>
+        <div id="fast_entry_barcodes" class="flex_columns"></div>
     </div>
 </body>
 </html>

@@ -356,9 +356,11 @@ function barcode_game(){
     var generate_fast_name_entry_barcodes = function(){
         var fast_entry_barcode_height = 20;
         var fast_entry_names = [];
-        var fast_entry_barcodes = [];
-        var fast_entry_barcode_div = document.getElementById("fast_entry_barcodes");
+        var fast_entry_barcode_div = document.querySelector("#fast_entry_barcodes");
         var scoreboard = get_scoreboard();
+
+        // clear_columns(fast_entry_barcode_div);
+        fast_entry_barcode_div.innerHTML = '';
 
         var index, candidate_name, barcode;
         for (index = 0; index < scoreboard.length; index++){
@@ -369,12 +371,9 @@ function barcode_game(){
                 barcode.setAttribute("jsbarcode-value", candidate_name);
                 barcode.setAttribute("jsbarcode-height", fast_entry_barcode_height);
                 JsBarcode(barcode).init();
-                fast_entry_barcodes.push(barcode);
+                fast_entry_barcode_div.appendChild(barcode);
             }
         }
-
-        clear_columns(fast_entry_barcode_div);
-        place_barcodes_in_columns(fast_entry_barcode_div, fast_entry_barcodes);
 
         return fast_entry_names;
     }
@@ -427,10 +426,14 @@ function barcode_game(){
         JsBarcode(barcode).init();
         control_barcodes.push(barcode)
 
-        place_barcodes_in_columns(control_barcode_div, control_barcodes);
+        // fancy appendChild for Array
+        control_barcodes.reduce(
+            (acc, cur) => { acc.appendChild(cur); return acc },
+            document.querySelector('#control_barcodes')
+        );
 
         // Now generate the alphabet
-        var alphabet_barcodes = [];
+        var alphabet_barcodes = document.querySelector('#alphabet_barcodes');
         var index;
         for (index = 0; index < alphabet.length; index++){
             barcode = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -438,9 +441,8 @@ function barcode_game(){
             barcode.setAttribute("jsbarcode-height", alphabet_barcode_height);
             barcode.style.display = 'block';
             JsBarcode(barcode).init();
-            alphabet_barcodes.push(barcode)
+            alphabet_barcodes.appendChild(barcode)
         }
-        place_barcodes_in_columns(alphabet_barcode_div, alphabet_barcodes);
     }
 
     return {
@@ -451,7 +453,7 @@ function barcode_game(){
             inactivity_detector(inactivity_timeout, show_scoreboard).register_listener();
             //start_new_game();
         },
-        clear_scores: clear_scoreboard
+        clear_scores: clear_scoreboard,
     }
 }
 
